@@ -40,49 +40,25 @@ body {
     margin-bottom: 8px;
 }
 
-
-/* =========================
-   HEADING
-========================= */
-
 h1 {
     text-align: center;
-
     color: #564266;
-
     font-size: 34px;
-
     margin-bottom: 10px;
 }
 
-
-/* =========================
-   SUBTITLE
-========================= */
-
 .subtitle {
     text-align: center;
-
     color: #6f6875;
-
     font-size: 14px;
-
     margin-bottom: 28px;
 }
 
-
-/* =========================
-   STATISTICS
-========================= */
-
 .stats {
     display: flex;
-
     gap: 12px;
-
     margin-bottom: 25px;
 }
-
 
 .stat-box {
     flex: 1;
@@ -162,7 +138,6 @@ h1 {
     transition: 0.25s;
 }
 
-
 #taskInput:focus {
     border-color: #AA83A7;
 
@@ -170,313 +145,167 @@ h1 {
         0 0 0 3px rgba(170, 131, 167, 0.15);
 }
 
-
 #taskInput::placeholder {
     color: #9b919c;
 }
 
-
-/* =========================
-   ADD BUTTON
-========================= */
-
 #addBtn {
     width: 30%;
-
     padding: 14px 10px;
-
     border: none;
-
     border-radius: 9px;
-
     background: #564266;
-
     color: white;
-
     font-size: 14px;
-
     font-weight: 600;
-
     cursor: pointer;
-
     transition: 0.3s;
 }
 
-
 #addBtn:hover {
     background: #AA83A7;
-
     transform: translateY(-2px);
-
     box-shadow:
         0 7px 15px rgba(86, 66, 102, 0.25);
 }
 
-
-/* =========================
-   TASK HEADER
-========================= */
-
 .task-header {
     display: flex;
-
     justify-content: space-between;
-
     align-items: center;
-
     margin-top: 32px;
-
     margin-bottom: 15px;
 }
 
-
 .task-header h2 {
     color: #564266;
-
     font-size: 20px;
 }
 
-
-/* =========================
-   CLEAR ALL
-========================= */
-
 #clearBtn {
     background: transparent;
-
     border: 1px solid #AA83A7;
-
     color: #564266;
-
     padding: 7px 12px;
-
     border-radius: 6px;
-
     cursor: pointer;
-
     font-size: 12px;
-
     transition: 0.25s;
 }
-
 
 #clearBtn:hover {
     background: #AA83A7;
-
     color: white;
 }
 
-
-/* =========================
-   TASK LIST
-========================= */
-
 #taskList {
     list-style: none;
-
     margin-top: 10px;
 }
 
-
-/* =========================
-   TASK ITEM
-========================= */
-
 #taskList li {
     display: flex;
-
     align-items: center;
-
     gap: 10px;
-
     padding: 14px;
-
     margin-bottom: 12px;
-
     background: #faf5f7;
-
     border: 1px solid #EFD9DC;
-
     border-left: 5px solid #AA83A7;
-
     border-radius: 10px;
-
     transition: 0.25s;
 }
 
-
 #taskList li:hover {
     transform: translateX(4px);
-
     box-shadow:
         0 6px 15px rgba(86, 66, 102, 0.10);
 }
 
-
-/* =========================
-   TASK TEXT
-========================= */
-
 .task-text {
     flex: 1;
-
     color: #564266;
-
     font-size: 15px;
-
     word-break: break-word;
 }
 
-
-/* =========================
-   COMPLETE BUTTON
-========================= */
-
 .complete-btn {
     background: #91AAA8;
-
     color: white;
-
     border: none;
-
     padding: 7px 11px;
-
     border-radius: 6px;
-
     cursor: pointer;
-
     font-size: 12px;
-
     transition: 0.2s;
 }
-
 
 .complete-btn:hover {
     background: #718f8d;
-
     transform: scale(1.05);
 }
-
-
-/* =========================
-   DELETE BUTTON
-========================= */
 
 .delete-btn {
     background: #AA83A7;
-
     color: white;
-
     border: none;
-
     padding: 7px 11px;
-
     border-radius: 6px;
-
     cursor: pointer;
-
     font-size: 12px;
-
     transition: 0.2s;
 }
 
-
 .delete-btn:hover {
     background: #564266;
-
     transform: scale(1.05);
 }
 
-
-/* =========================
-   COMPLETED TASK
-========================= */
-
 .completed {
     text-decoration: line-through;
-
     color: #91AAA8;
-
     opacity: 0.7;
 }
 
-
-/* =========================
-   EMPTY MESSAGE
-========================= */
-
 #emptyMessage {
     text-align: center;
-
     color: #9b919c;
-
     font-size: 14px;
-
     padding: 28px 10px;
 }
 
-
-/* =========================
-   FOOTER
-========================= */
-
 .footer {
     text-align: center;
-
     margin-top: 25px;
-
     padding-top: 18px;
-
     border-top: 1px solid #EFD9DC;
-
     color: #9b919c;
-
     font-size: 11px;
 }
 
-
-/* =========================
-   MOBILE RESPONSIVE
-========================= */
-
 @media (max-width: 600px) {
-
     body {
         padding: 15px;
     }
-
-
     .todo-container {
         padding: 28px 20px;
     }
-
-
     h1 {
         font-size: 28px;
     }
-
-
     .input-section {
         flex-direction: column;
     }
-
-
     #taskInput,
     #addBtn {
         width: 100%;
     }
-
-
     .stats {
         gap: 7px;
     }
-
-
     .stat-box {
         padding: 12px 5px;
     }
-
-
     #taskList li {
         flex-wrap: wrap;
     }
