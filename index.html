@@ -1,20 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo App</title>
+
+    <title>Todo App | Task Management</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <h1>My Todo App</h1>
 
     <div class="todo-container">
-        <input type="text" id="taskInput" placeholder="Enter your task">
 
-        <button id="addBtn">Add Task</button>
-        <ul id="TaskList"></ul>
+        <p class="welcome">WELCOME BACK 👋</p>
+
+        <h1>My Todo App</h1>
+
+        <p class="subtitle">
+            Organize your day, one task at a time.
+        </p>
+        <div class="stats">
+
+            <div class="stat-box">
+                <span id="totalTasks">0</span>
+                <small>Total Tasks</small>
+            </div>
+
+            <div class="stat-box">
+                <span id="completedTasks">0</span>
+                <small>Completed</small>
+            </div>
+
+            <div class="stat-box">
+                <span id="pendingTasks">0</span>
+                <small>Pending</small>
+            </div>
+
+        </div>
+
+        <div class="input-section">
+
+            <input
+                type="text"
+                id="taskInput"
+                placeholder="What needs to be done?"
+            >
+
+            <button id="addBtn">
+                + Add Task
+            </button>
+
+        </div>
+
+        <div class="task-header">
+
+            <h2>Today's Tasks</h2>
+
+            <button id="clearBtn">
+                Clear All
+            </button>
+
+        </div>
+
+        <ul id="taskList"></ul>
+
+        <p id="emptyMessage">
+            No tasks yet. Add your first task! ✨
+        </p>
+
+
+        <div class="footer">
+            Task Management • HTML • CSS • JavaScript
+        </div>
+
     </div>
-    
+
+
+    <script src="script.js"></script>
+
 </body>
+
 </html>
