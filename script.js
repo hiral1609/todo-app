@@ -37,3 +37,22 @@ function addTask() {
 }
 
 addBtn.addEventListener("click", addTask);
+
+taskList.addEventListener("click", function (event) {
+
+    if (event.target.classList.contains("complete-btn")) {
+
+        const task = event.target.parentElement;
+
+        task.querySelector(".task-text").classList.toggle("completed");
+    }
+
+
+    if (event.target.classList.contains("delete-btn")) {
+
+        const task = event.target.parentElement;
+
+        task.remove();
+    }
+
+});
