@@ -80,3 +80,8 @@ function updateCounters() {
         emptyMessage.style.display = "none";
     }
 }
+
+clearBtn.addEventListener("click", function () {
+    taskList.innerHTML = "";
+    updateCounters();
+});
