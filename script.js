@@ -85,3 +85,14 @@ clearBtn.addEventListener("click", function () {
     taskList.innerHTML = "";
     updateCounters();
 });
+
+clearBtn.addEventListener("click", function () {
+    taskList.innerHTML = "";
+    updateCounters();
+});
+
+taskInput.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        addTask();
+    }
+});
