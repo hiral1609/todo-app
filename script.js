@@ -10,8 +10,25 @@ const pendingTasks = document.getElementById("pendingTasks");
 
 const clearBtn = document.getElementById("clearBtn");
 const emptyMessage = document.getElementById("emptyMessage");
+const taskCountLabel = document.getElementById("taskCountLabel");
+const todayDate = document.getElementById("todayDate");
 
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+let tasks = [];
+
+try {
+    const savedTasks = JSON.parse(localStorage.getItem("tasks") || "[]");
+    tasks = Array.isArray(savedTasks)
+        ? savedTasks.filter(task => task && typeof task.text === "string")
+        : [];
+} catch (error) {
+    tasks = [];
+}
+
+todayDate.textContent = new Date().toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "short",
+    year: "numeric"
+});
 
 function saveTasks() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -24,7 +41,7 @@ function displayTasks() {
         const li = document.createElement("li");
 
         const taskDetails = document.createElement("div");
-        taskDetails.style.flex = "1";
+        taskDetails.className = "task-details";
 
         const taskText = document.createElement("span");
         taskText.className = "task-text";
@@ -38,47 +55,52 @@ function displayTasks() {
 
         if (task.date) {
             const dateText = document.createElement("small");
+            dateText.className = "task-date";
             dateText.textContent = "Due: " + task.date;
-            dateText.style.display = "block";
-            dateText.style.marginTop = "6px";
-            dateText.style.color = "#91AAA8";
-
             taskDetails.appendChild(dateText);
         }
 
         const editBtn = document.createElement("button");
-        editBtn.className = "complete-btn";
+        editBtn.className = "edit-btn";
         editBtn.textContent = "Edit";
 
-        
-editBtn.addEventListener("click", function () {
-    const updatedText = prompt("Edit your task:", task.text);
+        editBtn.addEventListener("click", function () {
+            const updatedText = prompt("Edit your task:", task.text);
 
-    if (updatedText === null) {
-        return;
-    }
+            if (updatedText === null) {
+                return;
+            }
 
-    if (updatedText.trim() === "") {
-        alert("Task cannot be empty!");
-        return;
-    }
+            if (updatedText.trim() === "") {
+                alert("Task cannot be empty!");
+                return;
+            }
 
-    const updatedDate = prompt(
-        "Enter due date (YYYY-MM-DD), or leave blank:",
-        task.date || ""
-    );
+            const updatedDate = prompt(
+                "Enter due date (YYYY-MM-DD), or leave blank:",
+                task.date || ""
+            );
 
-    if (updatedDate === null) {
-        return;
-    }
+            if (updatedDate === null) {
+                return;
+            }
 
-    tasks[index].text = updatedText.trim();
-    tasks[index].date = updatedDate.trim();
+            const cleanDate = updatedDate.trim();
 
-    saveTasks();
-    displayTasks();
-});
+            if (
+                cleanDate !== "" &&
+                !/^\d{4}-\d{2}-\d{2}$/.test(cleanDate)
+            ) {
+                alert("Please use the date format YYYY-MM-DD.");
+                return;
+            }
 
+            tasks[index].text = updatedText.trim();
+            tasks[index].date = cleanDate;
+
+            saveTasks();
+            displayTasks();
+        });
 
         const completeBtn = document.createElement("button");
         completeBtn.className = "complete-btn";
@@ -86,7 +108,6 @@ editBtn.addEventListener("click", function () {
 
         completeBtn.addEventListener("click", function () {
             tasks[index].completed = !tasks[index].completed;
-
             saveTasks();
             displayTasks();
         });
@@ -97,7 +118,6 @@ editBtn.addEventListener("click", function () {
 
         deleteBtn.addEventListener("click", function () {
             tasks.splice(index, 1);
-
             saveTasks();
             displayTasks();
         });
@@ -123,13 +143,11 @@ function addTask() {
         return;
     }
 
-    const newTask = {
+    tasks.push({
         text: text,
         date: date,
         completed: false
-    };
-
-    tasks.push(newTask);
+    });
 
     saveTasks();
     displayTasks();
@@ -158,13 +176,8 @@ clearBtn.addEventListener("click", function () {
         return;
     }
 
-    const confirmClear = confirm(
-        "Are you sure you want to clear all tasks?"
-    );
-
-    if (confirmClear) {
+    if (confirm("Are you sure you want to clear all tasks?")) {
         tasks = [];
-
         saveTasks();
         displayTasks();
     }
@@ -182,6 +195,9 @@ function updateCounters() {
     totalTasks.textContent = total;
     completedTasks.textContent = completed;
     pendingTasks.textContent = pending;
+
+    taskCountLabel.textContent =
+        total + (total === 1 ? " task" : " tasks");
 
     emptyMessage.style.display = total === 0 ? "block" : "none";
 }
