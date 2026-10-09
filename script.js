@@ -50,23 +50,35 @@ function displayTasks() {
         editBtn.className = "complete-btn";
         editBtn.textContent = "Edit";
 
-        editBtn.addEventListener("click", function () {
-            const updatedText = prompt("Edit your task:", task.text);
+        
+editBtn.addEventListener("click", function () {
+    const updatedText = prompt("Edit your task:", task.text);
 
-            if (updatedText === null) {
-                return;
-            }
+    if (updatedText === null) {
+        return;
+    }
 
-            if (updatedText.trim() === "") {
-                alert("Task cannot be empty!");
-                return;
-            }
+    if (updatedText.trim() === "") {
+        alert("Task cannot be empty!");
+        return;
+    }
 
-            tasks[index].text = updatedText.trim();
+    const updatedDate = prompt(
+        "Enter due date (YYYY-MM-DD), or leave blank:",
+        task.date || ""
+    );
 
-            saveTasks();
-            displayTasks();
-        });
+    if (updatedDate === null) {
+        return;
+    }
+
+    tasks[index].text = updatedText.trim();
+    tasks[index].date = updatedDate.trim();
+
+    saveTasks();
+    displayTasks();
+});
+
 
         const completeBtn = document.createElement("button");
         completeBtn.className = "complete-btn";
