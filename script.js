@@ -46,12 +46,35 @@ function displayTasks() {
             taskDetails.appendChild(dateText);
         }
 
+        const editBtn = document.createElement("button");
+        editBtn.className = "complete-btn";
+        editBtn.textContent = "Edit";
+
+        editBtn.addEventListener("click", function () {
+            const updatedText = prompt("Edit your task:", task.text);
+
+            if (updatedText === null) {
+                return;
+            }
+
+            if (updatedText.trim() === "") {
+                alert("Task cannot be empty!");
+                return;
+            }
+
+            tasks[index].text = updatedText.trim();
+
+            saveTasks();
+            displayTasks();
+        });
+
         const completeBtn = document.createElement("button");
         completeBtn.className = "complete-btn";
         completeBtn.textContent = task.completed ? "Undo" : "Complete";
 
         completeBtn.addEventListener("click", function () {
             tasks[index].completed = !tasks[index].completed;
+
             saveTasks();
             displayTasks();
         });
@@ -62,11 +85,13 @@ function displayTasks() {
 
         deleteBtn.addEventListener("click", function () {
             tasks.splice(index, 1);
+
             saveTasks();
             displayTasks();
         });
 
         li.appendChild(taskDetails);
+        li.appendChild(editBtn);
         li.appendChild(completeBtn);
         li.appendChild(deleteBtn);
 
@@ -127,6 +152,7 @@ clearBtn.addEventListener("click", function () {
 
     if (confirmClear) {
         tasks = [];
+
         saveTasks();
         displayTasks();
     }
