@@ -1,5 +1,7 @@
-// TaskFlow Todo Dashboard
 
+const API_URL = "/api/tasks";
+
+// HTML elements
 const taskForm = document.getElementById("taskForm");
 const taskInput = document.getElementById("taskInput");
 const taskDate = document.getElementById("taskDate");
@@ -26,31 +28,52 @@ const todayDate = document.getElementById("todayDate");
 
 const themeToggle = document.getElementById("themeToggle");
 
-// Load tasks saved in LocalStorage
+// Tasks will now come from the backend
 let tasks = [];
 
-try {
-    const savedTasks = JSON.parse(localStorage.getItem("taskflowTasks"));
-    tasks = Array.isArray(savedTasks) ? savedTasks : [];
-} catch (error) {
-    tasks = [];
+// API helper
+async function apiRequest(url, options = {}) {
+    const response = await fetch(url, {
+        ...options,
+        headers: {
+            "Content-Type": "application/json",
+            ...options.headers
+        }
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+        throw new Error(data.message || "Something went wrong");
+    }
+
+    return data;
 }
 
-// Add missing fields to older saved tasks
-tasks = tasks.map(function (task, index) {
-    return {
-        id: task.id || (Date.now().toString() + index),
-        text: typeof task.text === "string" ? task.text : "",
-        date: task.date || "",
-        priority: ["high", "medium", "low"].includes(task.priority)
-            ? task.priority
-            : "medium",
-        completed: Boolean(task.completed),
-        createdAt: task.createdAt || Date.now() + index
-    };
-});
+// Load tasks from backend
+async function loadTasks() {
+    try {
+        const data = await apiRequest(API_URL);
 
-// Local date as YYYY-MM-DD
+        tasks = data.map(function (task) {
+            return {
+                id: task.id,
+                text: task.title,
+                date: task.date || "",
+                priority: task.priority || "medium",
+                completed: Boolean(task.completed),
+                createdAt: task.createdAt || task.id
+            };
+        });
+
+        displayTasks();
+    } catch (error) {
+        console.error("Loading tasks failed:", error);
+        alert("Tasks load nahi hue. Check karo ki backend server chal raha hai.");
+    }
+}
+
+// Today's date as YYYY-MM-DD
 function getTodayString() {
     const today = new Date();
     const year = today.getFullYear();
@@ -60,21 +83,12 @@ function getTodayString() {
     return `${year}-${month}-${day}`;
 }
 
-// Display current date
+// Display today's date
 todayDate.textContent = new Date().toLocaleDateString("en-IN", {
     day: "numeric",
     month: "short",
     year: "numeric"
 });
-
-// Save tasks
-function saveTasks() {
-    try {
-        localStorage.setItem("taskflowTasks", JSON.stringify(tasks));
-    } catch (error) {
-        alert("Tasks could not be saved. Check your browser storage.");
-    }
-}
 
 // Format due date
 function formatDate(dateString) {
@@ -90,8 +104,8 @@ function formatDate(dateString) {
     });
 }
 
-// Add task
-function addTask(event) {
+// Add task using POST API
+async function addTask(event) {
     event.preventDefault();
 
     const text = taskInput.value.trim();
@@ -101,42 +115,50 @@ function addTask(event) {
         return;
     }
 
-    tasks.push({
-        id: Date.now().toString() + Math.random().toString(16).slice(2),
-        text: text,
-        date: taskDate.value,
-        priority: taskPriority.value,
-        completed: false,
-        createdAt: Date.now()
-    });
+    try {
+        await apiRequest(API_URL, {
+            method: "POST",
+            body: JSON.stringify({
+                title: text,
+                date: taskDate.value,
+                priority: taskPriority.value
+            })
+        });
 
-    saveTasks();
-    taskForm.reset();
-    taskPriority.value = "medium";
+        taskForm.reset();
+        taskPriority.value = "medium";
 
-    displayTasks();
-    taskInput.focus();
+        await loadTasks();
+        taskInput.focus();
+    } catch (error) {
+        console.error("Adding task failed:", error);
+        alert("Task add nahi hua: " + error.message);
+    }
 }
 
-// Toggle completed status
-function toggleTask(id) {
-    const task = tasks.find(function (item) {
-        return item.id === id;
-    });
-
+// Complete or undo using PUT API
+async function toggleTask(id) {
+    const task = tasks.find(item => item.id === id);
     if (!task) return;
 
-    task.completed = !task.completed;
-    saveTasks();
-    displayTasks();
+    try {
+        await apiRequest(`${API_URL}/${id}`, {
+            method: "PUT",
+            body: JSON.stringify({
+                completed: !task.completed
+            })
+        });
+
+        await loadTasks();
+    } catch (error) {
+        console.error("Updating task failed:", error);
+        alert("Task update nahi hua: " + error.message);
+    }
 }
 
-// Edit task name and date
-function editTask(id) {
-    const task = tasks.find(function (item) {
-        return item.id === id;
-    });
-
+// Edit task using PUT API
+async function editTask(id) {
+    const task = tasks.find(item => item.id === id);
     if (!task) return;
 
     const newText = prompt("Edit task name:", task.text);
@@ -177,27 +199,41 @@ function editTask(id) {
         }
     }
 
-    task.text = newText.trim();
-    task.date = cleanDate;
+    try {
+        await apiRequest(`${API_URL}/${id}`, {
+            method: "PUT",
+            body: JSON.stringify({
+                title: newText.trim(),
+                date: cleanDate,
+                priority: task.priority
+            })
+        });
 
-    saveTasks();
-    displayTasks();
+        await loadTasks();
+    } catch (error) {
+        console.error("Editing task failed:", error);
+        alert("Task edit nahi hua: " + error.message);
+    }
 }
 
-// Delete one task
-function deleteTask(id) {
+// Delete one task using DELETE API
+async function deleteTask(id) {
     if (!confirm("Do you want to delete this task?")) return;
 
-    tasks = tasks.filter(function (task) {
-        return task.id !== id;
-    });
+    try {
+        await apiRequest(`${API_URL}/${id}`, {
+            method: "DELETE"
+        });
 
-    saveTasks();
-    displayTasks();
+        await loadTasks();
+    } catch (error) {
+        console.error("Deleting task failed:", error);
+        alert("Task delete nahi hua: " + error.message);
+    }
 }
 
-// Clear all tasks
-function clearAllTasks() {
+// Delete all tasks using DELETE API
+async function clearAllTasks() {
     if (tasks.length === 0) {
         alert("There are no tasks to clear.");
         return;
@@ -205,9 +241,19 @@ function clearAllTasks() {
 
     if (!confirm("Are you sure you want to delete all tasks?")) return;
 
-    tasks = [];
-    saveTasks();
-    displayTasks();
+    try {
+        for (const task of [...tasks]) {
+            await apiRequest(`${API_URL}/${task.id}`, {
+                method: "DELETE"
+            });
+        }
+
+        await loadTasks();
+    } catch (error) {
+        console.error("Clearing tasks failed:", error);
+        alert("Kuch tasks delete nahi hue: " + error.message);
+        await loadTasks();
+    }
 }
 
 // Create task card
@@ -227,6 +273,7 @@ function createTaskElement(task) {
     checkbox.className = "task-checkbox";
     checkbox.checked = task.completed;
     checkbox.setAttribute("aria-label", "Mark task as completed");
+
     checkbox.addEventListener("change", function () {
         toggleTask(task.id);
     });
@@ -265,7 +312,7 @@ function createTaskElement(task) {
 
     taskDetails.appendChild(priorityBadge);
 
-    // Due today / overdue status
+    // Due today / overdue badge
     if (task.date && !task.completed) {
         const statusBadge = document.createElement("small");
 
@@ -283,13 +330,14 @@ function createTaskElement(task) {
     taskMain.appendChild(checkbox);
     taskMain.appendChild(taskDetails);
 
-    // Buttons
+    // Action buttons
     const actions = document.createElement("div");
     actions.className = "task-actions";
 
     const completeBtn = document.createElement("button");
     completeBtn.type = "button";
     completeBtn.textContent = task.completed ? "Undo" : "Complete";
+
     completeBtn.addEventListener("click", function () {
         toggleTask(task.id);
     });
@@ -297,6 +345,7 @@ function createTaskElement(task) {
     const editBtn = document.createElement("button");
     editBtn.type = "button";
     editBtn.textContent = "Edit";
+
     editBtn.addEventListener("click", function () {
         editTask(task.id);
     });
@@ -305,6 +354,7 @@ function createTaskElement(task) {
     deleteBtn.type = "button";
     deleteBtn.textContent = "Delete";
     deleteBtn.className = "delete-btn";
+
     deleteBtn.addEventListener("click", function () {
         deleteTask(task.id);
     });
@@ -397,7 +447,7 @@ function displayTasks() {
     updateCounters();
 }
 
-// Update statistics and progress bar
+// Update statistics and progress
 function updateCounters() {
     const total = tasks.length;
 
@@ -424,6 +474,7 @@ function updateCounters() {
 
     progressPercent.textContent = percentage + "%";
     progressFill.style.width = percentage + "%";
+
     progressText.textContent =
         completed + " out of " + total + " tasks completed";
 
@@ -470,5 +521,5 @@ filterTasks.addEventListener("change", displayTasks);
 sortTasks.addEventListener("change", displayTasks);
 clearAllBtn.addEventListener("click", clearAllTasks);
 
-// Initial render
-displayTasks();
+// Load backend tasks when the page opens
+loadTasks();
