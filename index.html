@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#564266">
-    <title>TaskFlow | My Todo Dashboard</title>
+    <title>TaskFlow | Todo Dashboard</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
 </head>
 <body>
 
     <aside class="sidebar">
-        <div class="brand"><span>✦</span> TaskFlow</div>
-
+        <div class="brand">✦ TaskFlow</div>
         <p class="menu-label">MENU</p>
 
         <nav class="navigation">
@@ -37,7 +36,13 @@
                 <p class="eyebrow">YOUR PERSONAL WORKSPACE</p>
                 <h1>My Dashboard</h1>
             </div>
-            <div class="today-badge" id="todayDate">Today</div>
+
+            <div class="header-actions">
+                <div class="today-badge" id="todayDate">Today</div>
+                <button type="button" id="themeToggle" class="theme-toggle">
+                    🌙 Dark Mode
+                </button>
+            </div>
         </header>
 
         <section class="welcome-banner">
@@ -98,12 +103,12 @@
 
             <div
                 class="progress-track"
+                id="progressTrack"
                 role="progressbar"
                 aria-label="Task completion progress"
                 aria-valuemin="0"
                 aria-valuemax="100"
                 aria-valuenow="0"
-                id="progressTrack"
             >
                 <div class="progress-fill" id="progressFill"></div>
             </div>
@@ -112,7 +117,6 @@
         </section>
 
         <section class="task-panel" id="tasks">
-
             <div class="panel-header">
                 <div>
                     <p class="eyebrow">STAY ORGANIZED</p>
@@ -145,9 +149,7 @@
                     <option value="low">Low Priority</option>
                 </select>
 
-                <button type="submit" id="addBtn" class="add-btn">
-                    + Add Task
-                </button>
+                <button type="submit" class="add-btn">+ Add Task</button>
             </form>
 
             <div class="task-tools">
@@ -183,13 +185,11 @@
                 <h3>No tasks yet</h3>
                 <p>Add your first task and make today productive!</p>
             </div>
-
         </section>
 
         <footer>
             Made with <span>♥</span> for a more organized day.
         </footer>
-
     </main>
 
 </body>
