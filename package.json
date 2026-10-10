@@ -1,0 +1,25 @@
+{
+  "name": "todo-app",
+  "version": "1.0.0",
+  "description": "A responsive and user-friendly Todo App built with HTML, CSS, and JavaScript to help users organize daily tasks, manage due dates, and track their productivity.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hiral1609/todo-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/hiral1609/todo-app/issues"
+  },
+  "homepage": "https://github.com/hiral1609/todo-app#readme",
+  "dependencies": {
+    "express": "^5.3.0"
+  }
+}
