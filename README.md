@@ -1,95 +1,130 @@
+# 🚀 TaskFlow — Full-Stack Todo App
 
-# ✦ TaskFlow — Todo Dashboard
+TaskFlow is a responsive task management web application built to help users organize their daily tasks, set priorities, manage due dates, and track their productivity.
 
-A responsive and user-friendly Todo App built with HTML, CSS, and JavaScript to help users organize daily tasks, manage due dates, and track their productivity.
+## 🌐 Live Demo
+
+**[Click here to use TaskFlow](https://todo-app-q6qa.onrender.com/)**
 
 ## 📸 Project Preview
 
-![TaskFlow Todo App Screenshot](screenshots/todo-app.png)
+![TaskFlow Dashboard](screenshots/todo-app.png)
 
 ## ✨ Features
 
-- **Add Tasks:** Add new tasks with ease.
-- **Due Dates:** Set a due date for each task.
-- **Edit Tasks:** Update task names and due dates.
-- **Complete Tasks:** Mark tasks as completed or undo them.
-- **Delete Tasks:** Remove individual tasks.
-- **Clear All:** Clear all tasks with confirmation.
-- **Task Statistics:** View total, completed, and pending tasks.
-- **Local Storage:** Tasks remain saved after refreshing or reopening the browser.
-- **Responsive Design:** Works on desktop, tablet, and mobile screens.
-- **Dashboard UI:** Full-page layout with sidebar navigation and task overview.
+- Add new tasks with a title and due date
+- Edit and delete existing tasks
+- Mark tasks as completed or pending
+- Set task priorities: High, Medium, and Low
+- Search tasks by title
+- Filter tasks by completion status
+- Sort tasks by priority and due date
+- Track total, completed, pending, and overdue tasks
+- View task completion progress
+- Toggle between light and dark modes
+- Responsive user interface
 
 ## 🛠️ Technologies Used
 
+**Frontend**
 - HTML5
 - CSS3
 - JavaScript
-- Browser LocalStorage
 
-## 🎨 Design
+**Backend**
+- Node.js
+- Express.js
+- REST API
 
-TaskFlow features a clean dashboard interface with a pastel color palette of purple, mauve, soft pink, and sage teal. The layout is designed to provide a simple and organized task management experience.
+**Tools & Deployment**
+- Git and GitHub
+- npm
+- Render
 
-## 🚀 Getting Started
+## ⚙️ Getting Started
 
 ### Prerequisites
 
-A modern web browser and a code editor such as Visual Studio Code.
+Install Node.js and npm on your computer.
 
-### 1. Clone the Repository
+### Installation
 
-```bash
-git clone https://github.com/hiral1609/todo-app.git
-```
+1. Clone the repository:
 
-### 2. Open the Project Folder
+   ```bash
+   git clone https://github.com/hiral1609/todo-app.git
+   ```
 
-```bash
-cd todo-app
-```
+2. Navigate to the project folder:
 
-### 3. Run the Application
+   ```bash
+   cd todo-app
+   ```
 
-Open `index.html` in your browser.
+3. Install dependencies:
 
-You can also use the Live Server extension in Visual Studio Code.
+   ```bash
+   npm install
+   ```
+
+4. Start the application:
+
+   ```bash
+   npm start
+   ```
+
+5. Open the application in your browser:
+
+   ```text
+   http://127.0.0.1:3010/
+   ```
 
 ## 📁 Project Structure
 
 ```text
 todo-app/
+├── screenshots/
+│   └── todo-app.png
 ├── index.html
 ├── style.css
 ├── script.js
-├── README.md
-└── screenshots/
-    └── todo-app.png
+├── server.js
+├── db.json
+├── package.json
+├── package-lock.json
+├── .gitignore
+└── README.md
 ```
+
+## 🔌 API Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/tasks` | Retrieve all tasks |
+| POST | `/api/tasks` | Create a task |
+| PUT | `/api/tasks/:id` | Update a task |
+| DELETE | `/api/tasks/:id` | Delete a task |
+| GET | `/api/check` | Check backend status |
 
 ## 💾 Data Storage
 
-The application uses browser LocalStorage to save tasks locally. Tasks remain available after refreshing or reopening the browser, as long as the browser's stored site data is not cleared.
+The application currently uses a local JSON file (`db.json`) for task storage during development. For reliable production storage, a persistent database can be integrated.
 
-Currently, tasks are not synchronized between different browsers or devices.
+## 🚀 Future Improvements
 
-## 🔮 Future Improvements
-
-- User authentication and personal accounts
-- Cloud database integration
-- Task search and filtering
-- Task priority levels
-- Due-date reminders
-- Dark mode
+- Integrate a persistent database such as PostgreSQL or MongoDB
+- Add user authentication and personal task lists
+- Add reminders and notifications
+- Improve accessibility and testing
 
 ## 👩‍💻 Author
 
 **Hiral Shah**
 
-GitHub: [hiral1609](https://github.com/hiral1609)
-
-Project Repository: [Todo App on GitHub](https://github.com/hiral1609/todo-app)
+- GitHub: [hiral1609](https://github.com/hiral1609)
+- Project Repository: [TaskFlow Todo App](https://github.com/hiral1609/todo-app)
+- Live Demo: [TaskFlow](https://todo-app-q6qa.onrender.com/)
 
 ---
 
-Made with HTML, CSS, and JavaScript.
+If you find this project useful, feel free to explore the repository and share your feedback.
