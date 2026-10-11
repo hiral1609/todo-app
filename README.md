@@ -8,7 +8,11 @@ TaskFlow is a responsive task management web application built to help users org
 
 ## 📸 Project Preview
 
-![TaskFlow Dashboard](screenshots/todo-app.png)
+### Dashboard
+![TaskFlow Dashboard](screenshots/dashboard.png)
+
+### Task Management
+![Task Management](screenshots/tasks.png)
 
 ## ✨ Features
 
